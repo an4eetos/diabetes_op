@@ -23,6 +23,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
+ENV PYTHONPATH=/app
 
 # Runtime libs for WeasyPrint + PDF/fonts — no -dev or compiler packages.
 RUN apt-get update \

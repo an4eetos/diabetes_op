@@ -5,6 +5,12 @@ from __future__ import annotations
 
 import os
 import sys
+from pathlib import Path
+
+# `python scripts/wait_for_db.py` puts `scripts/` first on sys.path, so `app` is not found unless root is added.
+_backend_root = Path(__file__).resolve().parents[1]
+if str(_backend_root) not in sys.path:
+    sys.path.insert(0, str(_backend_root))
 
 from sqlalchemy import create_engine, text
 
