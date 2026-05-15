@@ -1,0 +1,169 @@
+{
+  "app": {
+    "name": "Остео Ангио Скан",
+    "subtitle": "Clinical complication screening",
+    "secureWorkspace": "Secure clinical workspace",
+    "mvpNotice": "The risk score is for MVP workflow testing and requires clinical validation."
+  },
+  "language": { "label": "Language", "ru": "Русский", "kk": "Қазақша", "en": "English" },
+  "nav": { "dashboard": "Dashboard", "patients": "Patients", "admin": "Admin", "signOut": "Sign out" },
+  "common": {
+    "required": "Required",
+    "optional": "Optional",
+    "notProvided": "Not provided",
+    "accessDenied": "You do not have permission to access this area.",
+    "sessionExpired": "Your session has expired. Please sign in again.",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "search": "Search",
+    "updated": "Updated",
+    "date": "Date",
+    "category": "Category",
+    "status": "Status",
+    "enabled": "Enabled",
+    "placeholder": "Placeholder",
+    "years": "years",
+    "yes": "Yes",
+    "no": "No",
+    "unknown": "Unknown",
+    "scoreOutOf100": "{{score}} / 100",
+    "autosaved": "Draft saved",
+    "missingOptional": "Optional data is missing and does not block calculation.",
+    "open": "Open"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign in",
+    "loginFailed": "Login failed",
+    "validation": { "email": "Enter a valid email", "password": "Use at least 8 characters" }
+  },
+  "sex": { "female": "Female", "male": "Male", "other": "Other" },
+  "risk": {
+    "total": "Total risk",
+    "vascular": "Vascular risk",
+    "skeletal": "Skeletal risk",
+    "algorithm": "Risk algorithm",
+    "category": "Risk category",
+    "categories": { "low": "Low", "medium": "Medium", "high": "High" },
+    "summary": {
+      "low": "Low risk. Continue planned follow-up.",
+      "medium": "Medium risk. Additional examinations are recommended.",
+      "high": "High risk. Priority referral is recommended."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Fast access to patient screening",
+    "registry": "Patient registry",
+    "patients": "Patients",
+    "pdfProtocol": "PDF protocol",
+    "recentPatients": "Recent patients",
+    "emptyPatients": "No patients yet"
+  },
+  "patients": {
+    "create": "Create patient",
+    "registry": "Patient registry",
+    "searchHelp": "Search by name or medical record number",
+    "empty": "No patients found",
+    "profile": "Patient profile",
+    "edit": "Edit patient",
+    "update": "Update patient",
+    "history": "Screening history",
+    "noHistory": "No screening records yet",
+    "newScreening": "New screening",
+    "noMrn": "No medical record number",
+    "table": { "patient": "Patient", "mrn": "MRN", "sex": "Sex" }
+  },
+  "fields": {
+    "medicalRecordNumber": "Medical record number",
+    "lastName": "Last name",
+    "firstName": "First name",
+    "middleName": "Middle name",
+    "dateOfBirth": "Date of birth",
+    "sex": "Sex",
+    "phone": "Phone",
+    "notes": "Notes",
+    "age": "Age",
+    "diabetesDuration": "Type 2 diabetes duration",
+    "hba1c": "HbA1c within last 6 months",
+    "previousLowEnergyFractures": "Low-energy fractures",
+    "previousMi": "Myocardial infarction",
+    "previousStroke": "Stroke",
+    "bmi": "BMI",
+    "egfr": "eGFR",
+    "creatinine": "Creatinine, umol/L",
+    "boneMarkers": "Bone metabolism markers"
+  },
+  "screening": {
+    "newTitle": "New screening",
+    "sections": {
+      "patientBasics": "Patient basics",
+      "diabetesHistory": "Diabetes history",
+      "cardiovascularHistory": "Cardiovascular history",
+      "boneHealthHistory": "Bone health history",
+      "laboratoryData": "Laboratory data"
+    },
+    "calculate": "Calculate risk",
+    "draftRestored": "Draft restored",
+    "draftSaved": "Draft autosaved",
+    "optionalHint": "These fields can be completed later",
+    "historyRequiredHint": "Confirm the answer to avoid an accidental No value.",
+    "patientProfile": "Patient profile"
+  },
+  "result": {
+    "title": "Screening result",
+    "fiveSecond": "Doctor summary",
+    "recommendations": "Recommended next steps",
+    "inputSummary": "Input summary",
+    "pdfPreview": "PDF preview",
+    "exportPdf": "Export PDF"
+  },
+  "pdf": {
+    "title": "PDF protocol preview",
+    "subtitle": "Review before export",
+    "patientInfo": "Patient information",
+    "clinicalData": "Clinical data",
+    "riskScores": "Risk scores",
+    "recommendations": "Recommendations",
+    "generatedAt": "Generated at",
+    "doctor": "Doctor / operator",
+    "disclaimer": "This system supports clinical workflow and does not replace professional clinical judgment.",
+    "download": "Download PDF"
+  },
+  "admin": {
+    "title": "Users",
+    "subtitle": "Manage staff access",
+    "createUser": "Create user",
+    "fullName": "Full name",
+    "role": "Role",
+    "active": "Active",
+    "roles": { "admin": "Admin", "doctor": "Doctor", "nurse_registrar": "Nurse / registrar" },
+    "empty": "No users yet"
+  },
+  "recommendations": {
+    "standard_diabetes_control": "Continue standard diabetes follow-up and risk-factor control according to local clinical protocols.",
+    "reassess_next_visit": "Reassess screening data at the next planned visit or sooner if clinical status changes.",
+    "workflow_disclaimer": "Recommendations are MVP workflow suggestions and must be reviewed by a qualified clinician.",
+    "additional_exams": "Consider additional evaluation such as densitometry and vascular ultrasound when clinically appropriate.",
+    "optimize_diabetes_management": "Review modifiable risk factors and optimize diabetes management according to local protocols.",
+    "urgent_specialist_referral": "Arrange priority referral to appropriate specialized care based on clinical context.",
+    "preventive_measures": "Review preventive measures and patient safety planning according to local protocols."
+  },
+  "validation": {
+    "required": "This field is required",
+    "max": "Value is too long",
+    "age": "Age must be from 18 to 120",
+    "duration": "Duration must be from 0 to 80 years",
+    "hba1c": "HbA1c must be from 3 to 18%",
+    "bmi": "BMI must be from 10 to 80",
+    "egfr": "eGFR must be from 0 to 200",
+    "creatinine": "Creatinine must be from 10 to 1500"
+  },
+  "errors": {
+    "pdf_generation_failed": "PDF could not be generated. Please try again later.",
+    "request_failed": "Request failed.",
+    "network_failed": "Cannot connect to the server."
+  }
+}

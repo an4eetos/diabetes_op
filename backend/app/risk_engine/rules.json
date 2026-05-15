@@ -1,0 +1,106 @@
+{
+  "version": "mvp-placeholder-v1",
+  "disclaimer": "This MVP scoring algorithm is a configurable placeholder for workflow testing only. It has not been clinically validated and must not be interpreted as a medical conclusion.",
+  "thresholds": {
+    "low_max": 33,
+    "medium_max": 66
+  },
+  "rules": {
+    "vascular": [
+      {
+        "field": "age",
+        "op": "gte",
+        "value": 65,
+        "points": 15,
+        "reason": "Age threshold configured for MVP screening workflow"
+      },
+      {
+        "field": "diabetes_duration_years",
+        "op": "gte",
+        "value": 10,
+        "points": 15,
+        "reason": "Longer type 2 diabetes duration threshold configured for MVP workflow"
+      },
+      {
+        "field": "hba1c_percent",
+        "op": "gte",
+        "value": 8,
+        "points": 15,
+        "reason": "HbA1c threshold configured for MVP workflow"
+      },
+      {
+        "field": "previous_myocardial_infarction",
+        "op": "eq",
+        "value": true,
+        "points": 30,
+        "reason": "Previous myocardial infarction flag"
+      },
+      {
+        "field": "previous_stroke",
+        "op": "eq",
+        "value": true,
+        "points": 30,
+        "reason": "Previous stroke flag"
+      },
+      {
+        "field": "egfr",
+        "op": "lt",
+        "value": 60,
+        "points": 10,
+        "reason": "eGFR threshold configured for MVP workflow"
+      },
+      {
+        "field": "bmi",
+        "op": "gte",
+        "value": 30,
+        "points": 5,
+        "reason": "BMI threshold configured for MVP workflow"
+      }
+    ],
+    "skeletal": [
+      {
+        "field": "age",
+        "op": "gte",
+        "value": 65,
+        "points": 20,
+        "reason": "Age threshold configured for MVP screening workflow"
+      },
+      {
+        "field": "diabetes_duration_years",
+        "op": "gte",
+        "value": 10,
+        "points": 10,
+        "reason": "Longer type 2 diabetes duration threshold configured for MVP workflow"
+      },
+      {
+        "field": "hba1c_percent",
+        "op": "gte",
+        "value": 8,
+        "points": 10,
+        "reason": "HbA1c threshold configured for MVP workflow"
+      },
+      {
+        "field": "previous_low_energy_fractures",
+        "op": "eq",
+        "value": true,
+        "points": 35,
+        "reason": "Previous low-energy fracture flag"
+      },
+      {
+        "field": "egfr",
+        "op": "lt",
+        "value": 60,
+        "points": 10,
+        "reason": "eGFR threshold configured for MVP workflow"
+      },
+      {
+        "field": "bmi",
+        "op": "lt",
+        "value": 20,
+        "points": 10,
+        "reason": "Low BMI threshold configured for MVP workflow"
+      }
+    ]
+  }
+}
+

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        color: #1f2937;
+        font-family: DejaVu Sans, Arial, sans-serif;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      h1 {
+        color: #0f766e;
+        font-size: 22px;
+        margin: 0 0 8px;
+      }
+      h2 {
+        border-bottom: 1px solid #d1d5db;
+        font-size: 15px;
+        margin: 20px 0 8px;
+        padding-bottom: 4px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #d1d5db;
+        padding: 6px 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: #f3f4f6;
+        width: 34%;
+      }
+      .badge {
+        border-radius: 4px;
+        color: white;
+        display: inline-block;
+        font-weight: 700;
+        padding: 4px 8px;
+        text-transform: uppercase;
+      }
+      .low { background: #15803d; }
+      .medium { background: #ca8a04; }
+      .high { background: #b91c1c; }
+      .disclaimer {
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        margin-top: 18px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{ tr.pdf.title }}</h1>
+    <p>{{ tr.pdf.generatedAt }}: {{ generated_at.strftime("%Y-%m-%d %H:%M UTC") }}</p>
+    <p>{{ tr.pdf.doctor }}: {{ doctor.full_name }}</p>
+
+    <h2>{{ tr.pdf.patientInfo }}</h2>
+    <table>
+      <tr><th>{{ tr.pdf.name }}</th><td>{{ patient.last_name }} {{ patient.first_name }} {{ patient.middle_name or "" }}</td></tr>
+      <tr><th>{{ tr.pdf.medicalRecordNumber }}</th><td>{{ patient.medical_record_number or tr.common.notProvided }}</td></tr>
+      <tr><th>{{ tr.pdf.dateOfBirth }}</th><td>{{ patient.date_of_birth or tr.common.notProvided }}</td></tr>
+      <tr><th>{{ tr.pdf.sex }}</th><td>{{ tr.sex[patient.sex.value] }}</td></tr>
+    </table>
+
+    <h2>{{ tr.pdf.clinicalData }}</h2>
+    <table>
+      <tr><th>{{ tr.pdf.age }}</th><td>{{ screening.age }}</td></tr>
+      <tr><th>{{ tr.pdf.diabetesDuration }}</th><td>{{ screening.diabetes_duration_years }}</td></tr>
+      <tr><th>{{ tr.pdf.hba1c }}</th><td>{{ screening.hba1c_percent }}%</td></tr>
+      <tr><th>{{ tr.pdf.previousLowEnergyFractures }}</th><td>{{ tr.common.yes if screening.previous_low_energy_fractures else tr.common.no }}</td></tr>
+      <tr><th>{{ tr.pdf.previousMi }}</th><td>{{ tr.common.yes if screening.previous_myocardial_infarction else tr.common.no }}</td></tr>
+      <tr><th>{{ tr.pdf.previousStroke }}</th><td>{{ tr.common.yes if screening.previous_stroke else tr.common.no }}</td></tr>
+      <tr><th>{{ tr.pdf.bmi }}</th><td>{{ screening.bmi or tr.common.notProvided }}</td></tr>
+      <tr><th>{{ tr.pdf.egfr }}</th><td>{{ screening.egfr or tr.common.notProvided }}</td></tr>
+      <tr><th>{{ tr.pdf.creatinine }}</th><td>{{ screening.creatinine_umol_l or tr.common.notProvided }}</td></tr>
+      <tr><th>{{ tr.pdf.boneMarkers }}</th><td>{{ screening.bone_metabolism_markers or tr.common.notProvided }}</td></tr>
+    </table>
+
+    <h2>{{ tr.pdf.riskScores }}</h2>
+    <table>
+      <tr><th>{{ tr.pdf.totalRisk }}</th><td>{{ screening.total_risk }} / 100</td></tr>
+      <tr><th>{{ tr.pdf.vascularRisk }}</th><td>{{ screening.vascular_risk }} / 100</td></tr>
+      <tr><th>{{ tr.pdf.skeletalRisk }}</th><td>{{ screening.skeletal_risk }} / 100</td></tr>
+      <tr>
+        <th>{{ tr.pdf.riskCategory }}</th>
+        <td><span class="badge {{ screening.risk_category.value }}">{{ tr.risk[screening.risk_category.value] }}</span></td>
+      </tr>
+      <tr><th>{{ tr.pdf.algorithmVersion }}</th><td>{{ screening.algorithm_version }}</td></tr>
+    </table>
+
+    <h2>{{ tr.pdf.recommendations }}</h2>
+    <ul>
+      {% for item in screening.recommendation_items %}
+      <li>{{ recommendation(item) }}</li>
+      {% endfor %}
+    </ul>
+
+    <div class="disclaimer">
+      <strong>{{ tr.pdf.disclaimer }}</strong>
+      {{ tr.app.mvpNotice }}
+    </div>
+  </body>
+</html>

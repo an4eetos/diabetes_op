@@ -1,0 +1,48 @@
+{
+  "app": {
+    "name": "Остео Ангио Скан",
+    "mvpNotice": "The risk score is for MVP workflow testing and requires clinical validation."
+  },
+  "common": { "yes": "Yes", "no": "No", "notProvided": "Not provided" },
+  "sex": { "female": "Female", "male": "Male", "other": "Other" },
+  "risk": { "low": "Low", "medium": "Medium", "high": "High" },
+  "pdf": {
+    "title": "Остео Ангио Скан: screening protocol",
+    "generatedAt": "Generated at",
+    "doctor": "Doctor / operator",
+    "patientInfo": "Patient information",
+    "name": "Name",
+    "medicalRecordNumber": "Medical record number",
+    "dateOfBirth": "Date of birth",
+    "sex": "Sex",
+    "clinicalData": "Clinical data",
+    "age": "Age",
+    "diabetesDuration": "Duration of type 2 diabetes",
+    "hba1c": "HbA1c within last 6 months",
+    "previousLowEnergyFractures": "Previous low-energy fractures",
+    "previousMi": "Previous myocardial infarction",
+    "previousStroke": "Previous stroke",
+    "bmi": "BMI",
+    "egfr": "eGFR",
+    "creatinine": "Creatinine",
+    "boneMarkers": "Bone metabolism markers",
+    "riskScores": "Risk scores",
+    "totalRisk": "Total risk",
+    "vascularRisk": "Vascular risk",
+    "skeletalRisk": "Skeletal risk",
+    "riskCategory": "Risk category",
+    "algorithmVersion": "Algorithm version",
+    "recommendations": "Recommendations",
+    "disclaimer": "This system supports clinical workflow and does not replace professional clinical judgment."
+  },
+  "recommendations": {
+    "standard_diabetes_control": "Continue standard diabetes follow-up and risk-factor control according to local clinical protocols.",
+    "reassess_next_visit": "Reassess screening data at the next planned visit or sooner if clinical status changes.",
+    "workflow_disclaimer": "Recommendations are MVP workflow suggestions and must be reviewed by a qualified clinician.",
+    "additional_exams": "Consider additional evaluation such as densitometry and vascular ultrasound when clinically appropriate.",
+    "optimize_diabetes_management": "Review modifiable risk factors and optimize diabetes management according to local protocols.",
+    "urgent_specialist_referral": "Arrange priority referral to appropriate specialized care based on clinical context.",
+    "preventive_measures": "Review preventive measures and patient safety planning according to local protocols."
+  }
+}
+
