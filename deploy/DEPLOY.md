@@ -120,6 +120,7 @@ Use local Postgres in Compose; Supabase is only for deployed environments.
 |---------|-----|
 | CORS error in browser | Add exact frontend URL to `CORS_ORIGINS` on Railway |
 | `network_failed` on login | Wrong `VITE_API_BASE_URL` — rebuild Pages after fixing |
+| `Database not ready` forever | Stack uses **psycopg3**; `postgresql://` URLs are rewritten to `postgresql+psycopg://` in app code—same logic is now used in the startup wait. Confirm **`sslmode=require`** (not `sslmode=requir`). Deploy logs show the real DB error. |
 | DB connection timeout | Use Supabase pooler URI; check `?sslmode=require` |
 | Migrations fail on pooler | Switch `DATABASE_URL` to **direct** host for one deploy, then back to pooler |
 | 502 on Railway | Check deploy logs; WeasyPrint needs the Docker image (not bare Python without system libs) |
