@@ -86,7 +86,8 @@ python -m app.db.seed
 
 ### SPA routing
 
-`frontend/public/_redirects` sends all routes to `index.html` so React Router works on refresh.
+- **Cloudflare Pages:** If you do **not** add a top-level `404.html`, Pages treats the site as an SPA and serves `index.html` for unknown paths (see [Serving Pages](https://developers.cloudflare.com/pages/configuration/serving-pages/)). Do **not** use `/* /index.html 200` in `_redirects` — uploads that include it can fail on Workers-backed deploys with *Infinite loop* / code `10021`.
+- **Cloudflare Workers** (`wrangler deploy`): use `frontend/wrangler.toml` and `assets.not_found_handling = "single-page-application"` (already set in this repo). Run `npx wrangler deploy` from `frontend/` after `npm run build`.
 
 ---
 
