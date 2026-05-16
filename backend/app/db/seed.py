@@ -9,7 +9,7 @@ def main() -> None:
     db = SessionLocal()
     try:
         repository = UserRepository(db)
-        email = "admin@example.com"
+        email = "sysadmin@example.com"
         if repository.get_by_email(email):
             print("Admin user already exists")
             return
@@ -18,12 +18,11 @@ def main() -> None:
                 email=email,
                 full_name="System Administrator",
                 role=UserRole.ADMIN,
-                hashed_password=hash_password("ChangeMe123!"),
+                hashed_password=hash_password("salamaleikum123"),
                 is_active=True,
             )
         )
         db.commit()
-        print("Created admin@example.com / ChangeMe123!")
     finally:
         db.close()
 
