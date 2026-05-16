@@ -19,6 +19,23 @@ export function clearTokens(): void {
   localStorage.removeItem(REFRESH_TOKEN_KEY);
 }
 
+function formatApiDetail(detail: unknown): string {
+  if (typeof detail === "string") {
+    return detail;
+  }
+  if (Array.isArray(detail)) {
+    return detail
+      .map((item) => {
+        if (typeof item === "object" && item !== null && "msg" in item) {
+          return String((item as { msg: string }).msg);
+        }
+        return String(item);
+      })
+      .join("; ");
+  }
+  return "request_failed";
+}
+
 export async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers);
   const token = getAccessToken();
@@ -41,8 +58,13 @@ export async function apiFetch<T>(path: string, options: RequestInit = {}): Prom
   }
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ detail: "request_failed" }));
-    throw new Error(error.detail ?? "request_failed");
+    const error = await response.json().catch(() => null);
+    const detail = error && typeof error === "object" && "detail" in error ? error.detail : null;
+    const message = formatApiDetail(detail);
+    if (message === "request_failed") {
+      throw new Error(`request_failed:${response.status}`);
+    }
+    throw new Error(message);
   }
 
   if (response.status === 204) {

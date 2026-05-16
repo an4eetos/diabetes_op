@@ -120,7 +120,10 @@ Use local Postgres in Compose; Supabase is only for deployed environments.
 | Symptom | Fix |
 |---------|-----|
 | CORS error in browser | Add exact frontend URL to `CORS_ORIGINS` on Railway |
-| `network_failed` on login | Wrong `VITE_API_BASE_URL` — rebuild Pages after fixing |
+| `network_failed` on login | Wrong `VITE_API_BASE_URL`, CORS blocked, or API down — rebuild Pages after fixing env |
+| `Request failed (HTTP 404)` | `VITE_API_BASE_URL` must end with `/api/v1` (e.g. `https://<railway>/api/v1`), not the bare Railway host |
+| `Request failed (HTTP 502)` | Railway backend crashed — check deploy logs (DB URL, migrations, enum errors) |
+| Wrong password but generic error | Use seeded credentials or check email matches DB (`sysadmin@example.com` if you changed seed) |
 | `Database not ready` forever | Stack uses **psycopg3**; `postgresql://` URLs are rewritten to `postgresql+psycopg://` in app code—same logic is now used in the startup wait. Confirm **`sslmode=require`** (not `sslmode=requir`). Deploy logs show the real DB error. |
 | DB connection timeout | Use Supabase pooler URI; check `?sslmode=require` |
 | Migrations fail on pooler | Switch `DATABASE_URL` to **direct** host for one deploy, then back to pooler |
