@@ -32,6 +32,18 @@ export default function ScreeningResult() {
   }
 
   const screening = screeningQuery.data;
+  const inputSummaryItems = [
+    [t("fields.age"), screening.age],
+    [t("fields.sex"), t(`sex.${screening.sex}`)],
+    ...(screening.sex === "female"
+      ? [[t("fields.menopauseStatus"), screening.menopause_status ? t(`menopauseStatus.${screening.menopause_status}`) : t("common.notProvided")]]
+      : []),
+    [t("fields.hba1c"), `${screening.hba1c_percent}%`],
+    [t("fields.diabetesDuration"), `${screening.diabetes_duration_years} ${t("common.years")}`],
+    [t("fields.previousLowEnergyFractures"), screening.previous_low_energy_fractures ? t("common.yes") : t("common.no")],
+    [t("fields.previousMi"), screening.previous_myocardial_infarction ? t("common.yes") : t("common.no")],
+    [t("fields.previousStroke"), screening.previous_stroke ? t("common.yes") : t("common.no")]
+  ];
 
   return (
     <div className="space-y-6">
@@ -101,14 +113,7 @@ export default function ScreeningResult() {
 
         <Panel title={t("result.inputSummary")}>
           <dl className="space-y-3 text-sm">
-            {[
-              [t("fields.age"), screening.age],
-              [t("fields.hba1c"), `${screening.hba1c_percent}%`],
-              [t("fields.diabetesDuration"), `${screening.diabetes_duration_years} ${t("common.years")}`],
-              [t("fields.previousLowEnergyFractures"), screening.previous_low_energy_fractures ? t("common.yes") : t("common.no")],
-              [t("fields.previousMi"), screening.previous_myocardial_infarction ? t("common.yes") : t("common.no")],
-              [t("fields.previousStroke"), screening.previous_stroke ? t("common.yes") : t("common.no")]
-            ].map(([label, value]) => (
+            {inputSummaryItems.map(([label, value]) => (
               <div className="flex justify-between gap-4" key={label}>
                 <dt className="text-slate-500">{label}</dt>
                 <dd className="text-right font-semibold text-slate-900">{value}</dd>

@@ -65,11 +65,23 @@
       <tr><th>{{ tr.pdf.medicalRecordNumber }}</th><td>{{ patient.medical_record_number or tr.common.notProvided }}</td></tr>
       <tr><th>{{ tr.pdf.dateOfBirth }}</th><td>{{ patient.date_of_birth or tr.common.notProvided }}</td></tr>
       <tr><th>{{ tr.pdf.sex }}</th><td>{{ tr.sex[patient.sex.value] }}</td></tr>
+      {% if patient.sex.value == "female" %}
+      <tr>
+        <th>{{ tr.pdf.menopauseStatus }}</th>
+        <td>{{ tr.menopauseStatus[patient.menopause_status.value] if patient.menopause_status else tr.common.notProvided }}</td>
+      </tr>
+      {% endif %}
     </table>
 
     <h2>{{ tr.pdf.clinicalData }}</h2>
     <table>
       <tr><th>{{ tr.pdf.age }}</th><td>{{ screening.age }}</td></tr>
+      {% if screening.sex.value == "female" %}
+      <tr>
+        <th>{{ tr.pdf.menopauseStatus }}</th>
+        <td>{{ tr.menopauseStatus[screening.menopause_status.value] if screening.menopause_status else tr.common.notProvided }}</td>
+      </tr>
+      {% endif %}
       <tr><th>{{ tr.pdf.diabetesDuration }}</th><td>{{ screening.diabetes_duration_years }}</td></tr>
       <tr><th>{{ tr.pdf.hba1c }}</th><td>{{ screening.hba1c_percent }}%</td></tr>
       <tr><th>{{ tr.pdf.previousLowEnergyFractures }}</th><td>{{ tr.common.yes if screening.previous_low_energy_fractures else tr.common.no }}</td></tr>

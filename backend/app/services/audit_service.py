@@ -5,7 +5,16 @@ from sqlalchemy.orm import Session
 from app.repositories.audit_repository import AuditRepository
 
 
-SAFE_METADATA_KEYS = {"changed_fields", "risk_category", "algorithm_version", "screening_id"}
+SAFE_METADATA_KEYS = {
+    "changed_fields",
+    "risk_category",
+    "algorithm_version",
+    "screening_id",
+    "prediction_id",
+    "model_version",
+    "model_type",
+    "recommendation_code",
+}
 
 
 class AuditService:
@@ -33,4 +42,3 @@ class AuditService:
     @staticmethod
     def _sanitize_metadata(metadata: dict) -> dict:
         return {key: value for key, value in metadata.items() if key in SAFE_METADATA_KEYS}
-

@@ -74,6 +74,14 @@ export default function PdfPreview() {
               <div><dt className="text-slate-500">{t("fields.firstName")}</dt><dd className="font-semibold">{patient.first_name}</dd></div>
               <div><dt className="text-slate-500">{t("fields.medicalRecordNumber")}</dt><dd className="font-semibold">{patient.medical_record_number ?? t("common.notProvided")}</dd></div>
               <div><dt className="text-slate-500">{t("fields.sex")}</dt><dd className="font-semibold">{t(`sex.${patient.sex}`)}</dd></div>
+              {patient.sex === "female" && (
+                <div>
+                  <dt className="text-slate-500">{t("fields.menopauseStatus")}</dt>
+                  <dd className="font-semibold">
+                    {patient.menopause_status ? t(`menopauseStatus.${patient.menopause_status}`) : t("common.notProvided")}
+                  </dd>
+                </div>
+              )}
             </dl>
           </section>
 
@@ -81,6 +89,14 @@ export default function PdfPreview() {
             <h3 className="mb-3 text-base font-bold text-slate-950">{t("pdf.clinicalData")}</h3>
             <dl className="grid gap-3 md:grid-cols-2">
               <div><dt className="text-slate-500">{t("fields.age")}</dt><dd className="font-semibold">{screening.age}</dd></div>
+              {screening.sex === "female" && (
+                <div>
+                  <dt className="text-slate-500">{t("fields.menopauseStatus")}</dt>
+                  <dd className="font-semibold">
+                    {screening.menopause_status ? t(`menopauseStatus.${screening.menopause_status}`) : t("common.notProvided")}
+                  </dd>
+                </div>
+              )}
               <div><dt className="text-slate-500">{t("fields.hba1c")}</dt><dd className="font-semibold">{screening.hba1c_percent}%</dd></div>
               <div><dt className="text-slate-500">{t("fields.diabetesDuration")}</dt><dd className="font-semibold">{screening.diabetes_duration_years}</dd></div>
               <div><dt className="text-slate-500">{t("fields.previousLowEnergyFractures")}</dt><dd className="font-semibold">{screening.previous_low_energy_fractures ? t("common.yes") : t("common.no")}</dd></div>

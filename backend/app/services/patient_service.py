@@ -12,12 +12,19 @@ class PatientService:
         self.db = db
         self.repository = PatientRepository(db)
 
-    def create(self, payload: PatientCreate, created_by_id: uuid.UUID) -> Patient:
-        patient = Patient(**payload.model_dump(), created_by_id=created_by_id)
+    def create(self, payload: PatientCreate, created_by_id: uuid.UUID | None = None) -> Patient:
+        data = payload.model_dump(exclude_unset=True)
+        patient = Patient(**data, created_by_id=created_by_id)
         self.repository.add(patient)
         self.db.commit()
         self.db.refresh(patient)
         return patient
+
+    def get_or_create_by_external_id(self, patient_external_id: str, created_by_id: uuid.UUID | None = None) -> Patient:
+        patient = self.repository.get_by_external_id(patient_external_id)
+        if patient:
+            return patient
+        return self.create(PatientCreate(patient_external_id=patient_external_id), created_by_id=created_by_id)
 
     def update(self, patient_id: uuid.UUID, payload: PatientUpdate) -> tuple[Patient | None, list[str]]:
         patient = self.repository.get(patient_id)
@@ -34,4 +41,3 @@ class PatientService:
         self.db.commit()
         self.db.refresh(patient)
         return patient, changed_fields
-

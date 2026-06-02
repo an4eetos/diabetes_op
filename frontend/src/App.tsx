@@ -6,13 +6,10 @@ import { getMe } from "./api/auth";
 import { clearTokens, getAccessToken } from "./api/client";
 import AppLayout from "./components/AppLayout";
 import AdminUsers from "./pages/AdminUsers";
-import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import NewScreening from "./pages/NewScreening";
+import OsteoRiskPage from "./pages/OsteoRiskPage";
 import PatientList from "./pages/PatientList";
 import PatientProfile from "./pages/PatientProfile";
-import PdfPreview from "./pages/PdfPreview";
-import ScreeningResult from "./pages/ScreeningResult";
 
 import type { UserRole } from "./types";
 
@@ -58,12 +55,9 @@ export default function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route element={<RequireAuth />}>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<OsteoRiskPage />} />
         <Route path="/patients" element={<PatientList />} />
         <Route path="/patients/:patientId" element={<PatientProfile />} />
-        <Route path="/patients/:patientId/screenings/new" element={<NewScreening />} />
-        <Route path="/screenings/:screeningId" element={<ScreeningResult />} />
-        <Route path="/screenings/:screeningId/pdf-preview" element={<PdfPreview />} />
         <Route element={<RequireRole roles={["admin"]} />}>
           <Route path="/admin/users" element={<AdminUsers />} />
         </Route>

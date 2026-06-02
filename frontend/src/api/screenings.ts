@@ -8,6 +8,7 @@ function toApiPayload(payload: ScreeningFormData) {
   return {
     age: payload.age,
     sex: payload.sex,
+    menopause_status: payload.sex === "female" ? (payload.menopause_status ?? "unknown") : null,
     diabetes_duration_years: payload.diabetes_duration_years,
     hba1c_percent: payload.hba1c_percent,
     previous_low_energy_fractures: payload.previous_low_energy_fractures_answer === "yes",

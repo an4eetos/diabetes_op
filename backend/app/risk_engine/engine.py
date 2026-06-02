@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from app.domain.enums import RiskCategory, Sex
+from app.domain.enums import MenopauseStatus, RiskCategory, Sex
 
 
 @dataclass(frozen=True)
@@ -14,6 +14,7 @@ class RiskInputData:
     sex: Sex | str
     diabetes_duration_years: float
     hba1c_percent: float
+    menopause_status: MenopauseStatus | str | None = None
     previous_low_energy_fractures: bool = False
     previous_myocardial_infarction: bool = False
     previous_stroke: bool = False
@@ -133,4 +134,3 @@ class RiskEngine:
         if missing:
             raise ValueError(f"Risk rules config is missing keys: {sorted(missing)}")
         return config
-

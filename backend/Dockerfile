@@ -28,8 +28,9 @@ ENV PYTHONPATH=/app
 # Runtime libs for WeasyPrint + PDF/fonts — no -dev or compiler packages.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
+      build-essential \
       fonts-dejavu-core \
-      libcairo2 \
+      libffi-dev \
       libgdk-pixbuf-2.0-0 \
       libpango-1.0-0 \
       libpangocairo-1.0-0 \

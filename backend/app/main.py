@@ -11,12 +11,9 @@ app = FastAPI(
     title=settings.app_name,
     version="0.1.0",
     description=(
-        "MVP screening support system. Risk scores are configurable placeholders "
-        "and require clinical validation before real medical use."
+        "OsteoRisk-AI clinical decision support prototype. Predictions and explanations "
+        "require clinical validation before real medical use."
     ),
-    docs_url=None if settings.is_production else "/docs",
-    redoc_url=None if settings.is_production else "/redoc",
-    openapi_url=None if settings.is_production else "/openapi.json",
 )
 
 app.add_middleware(

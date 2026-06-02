@@ -16,6 +16,7 @@ import { createScreeningSchema, type ScreeningFormData } from "../schemas/screen
 const defaultValues = {
   age: 55,
   sex: "female",
+  menopause_status: "unknown",
   diabetes_duration_years: 5,
   hba1c_percent: 7,
   bmi: undefined,
@@ -64,9 +65,17 @@ export default function NewScreening() {
   useEffect(() => {
     if (!patientQuery.data || initialized.current) return;
     const savedDraft = localStorage.getItem(draftKey);
+    const patientSex = patientQuery.data.sex ?? "female";
+    const legacyMenopauseStatus =
+      patientQuery.data.menopause_status === "yes" ||
+      patientQuery.data.menopause_status === "no" ||
+      patientQuery.data.menopause_status === "unknown"
+        ? patientQuery.data.menopause_status
+        : "unknown";
     const patientDefaults = {
       ...defaultValues,
-      sex: patientQuery.data.sex,
+      sex: patientSex,
+      menopause_status: patientSex === "female" ? legacyMenopauseStatus : null,
       age: calculateAge(patientQuery.data.date_of_birth) ?? defaultValues.age
     };
     if (savedDraft) {
@@ -96,12 +105,22 @@ export default function NewScreening() {
 
   const hba1c = watch("hba1c_percent");
   const duration = watch("diabetes_duration_years");
+  const selectedSex = watch("sex");
+  const selectedMenopauseStatus = watch("menopause_status");
   const optionalValues = watch(["bmi", "egfr", "creatinine_umol_l", "bone_metabolism_markers"]);
   const missingOptionalCount = optionalValues.filter((value) => value === undefined || value === "").length;
   const answerOptions = [
     { value: "no", label: t("common.no") },
     { value: "yes", label: t("common.yes") }
   ] as const;
+
+  useEffect(() => {
+    if (selectedSex !== "female") {
+      setValue("menopause_status", null);
+    } else if (!selectedMenopauseStatus) {
+      setValue("menopause_status", "unknown");
+    }
+  }, [selectedMenopauseStatus, selectedSex, setValue]);
 
   function historyControl(name: keyof Pick<ScreeningFormData, "previous_myocardial_infarction_answer" | "previous_stroke_answer" | "previous_low_energy_fractures_answer">) {
     return (
@@ -151,6 +170,15 @@ export default function NewScreening() {
                 <option value="other">{t("sex.other")}</option>
               </select>
             </Field>
+            {selectedSex === "female" && (
+              <Field label={t("fields.menopauseStatus")}>
+                <select className="form-input" {...register("menopause_status")}>
+                  <option value="unknown">{t("menopauseStatus.unknown")}</option>
+                  <option value="yes">{t("menopauseStatus.yes")}</option>
+                  <option value="no">{t("menopauseStatus.no")}</option>
+                </select>
+              </Field>
+            )}
           </div>
         </Panel>
 
