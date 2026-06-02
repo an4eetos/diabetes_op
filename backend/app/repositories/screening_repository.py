@@ -18,6 +18,7 @@ class ScreeningRepository:
             self.db.scalars(
                 select(Screening)
                 .where(Screening.patient_id == patient_id)
+                .where(Screening.height_cm.is_not(None))
                 .order_by(Screening.created_at.desc())
             )
         )
@@ -26,4 +27,3 @@ class ScreeningRepository:
         self.db.add(screening)
         self.db.flush()
         return screening
-

@@ -4,9 +4,15 @@ import type { Patient, Screening } from "../types";
 import type { PatientFormData } from "../schemas/patient";
 
 function normalizePatientPayload(payload: Partial<PatientFormData>): Partial<PatientFormData> {
-  return Object.fromEntries(
+  const normalized = Object.fromEntries(
     Object.entries(payload).map(([key, value]) => [key, value === "" ? null : value])
   ) as Partial<PatientFormData>;
+  if (normalized.sex !== "female") {
+    normalized.menopause_status = null;
+  } else if (!normalized.menopause_status) {
+    normalized.menopause_status = "unknown";
+  }
+  return normalized;
 }
 
 export function listPatients(query = ""): Promise<Patient[]> {

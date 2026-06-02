@@ -5,6 +5,7 @@
   },
   "common": { "yes": "Yes", "no": "No", "notProvided": "Not provided" },
   "sex": { "female": "Female", "male": "Male", "other": "Other" },
+  "menopauseStatus": { "yes": "Postmenopausal", "no": "Not postmenopausal", "unknown": "Unknown" },
   "risk": { "low": "Low", "medium": "Medium", "high": "High" },
   "pdf": {
     "title": "Остео Ангио Скан: screening protocol",
@@ -15,6 +16,7 @@
     "medicalRecordNumber": "Medical record number",
     "dateOfBirth": "Date of birth",
     "sex": "Sex",
+    "menopauseStatus": "Menopause status",
     "clinicalData": "Clinical data",
     "age": "Age",
     "diabetesDuration": "Duration of type 2 diabetes",
@@ -45,4 +47,3 @@
     "preventive_measures": "Review preventive measures and patient safety planning according to local protocols."
   }
 }
-

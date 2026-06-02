@@ -1,12 +1,12 @@
 {
   "app": {
-    "name": "Остео Ангио Скан",
-    "subtitle": "Clinical complication screening",
+    "name": "OsteoRisk-AI",
+    "subtitle": "Reduced bone mineral density risk prediction",
     "secureWorkspace": "Secure clinical workspace",
     "mvpNotice": "The risk score is for MVP workflow testing and requires clinical validation."
   },
   "language": { "label": "Language", "ru": "Русский", "kk": "Қазақша", "en": "English" },
-  "nav": { "dashboard": "Dashboard", "patients": "Patients", "admin": "Admin", "signOut": "Sign out" },
+  "nav": { "osteorisk": "OsteoRisk-AI", "dashboard": "Dashboard", "patients": "Patients", "admin": "Admin", "signOut": "Sign out" },
   "common": {
     "required": "Required",
     "optional": "Optional",
@@ -40,6 +40,7 @@
     "validation": { "email": "Enter a valid email", "password": "Use at least 8 characters" }
   },
   "sex": { "female": "Female", "male": "Male", "other": "Other" },
+  "menopauseStatus": { "yes": "Postmenopausal", "no": "Not postmenopausal", "unknown": "Unknown" },
   "risk": {
     "total": "Total risk",
     "vascular": "Vascular risk",
@@ -83,6 +84,7 @@
     "middleName": "Middle name",
     "dateOfBirth": "Date of birth",
     "sex": "Sex",
+    "menopauseStatus": "Menopause status",
     "phone": "Phone",
     "notes": "Notes",
     "age": "Age",
@@ -161,7 +163,142 @@
     "egfr": "eGFR must be from 0 to 200",
     "creatinine": "Creatinine must be from 10 to 1500"
   },
+  "osteorisk": {
+    "title": "OsteoRisk-AI",
+    "subtitle": "Clinical decision support prototype for predicting reduced BMD risk in patients with type 2 diabetes.",
+    "disclaimer": "This estimate is a risk prediction and does not replace the physician's clinical decision.",
+    "sections": {
+      "patientContext": "Patient context",
+      "patientContextDescription": "Use an anonymized identifier without name or phone number.",
+      "demography": "Demography and anthropometry",
+      "demographyDescription": "BMI is calculated automatically from height and weight.",
+      "diabetes": "Type 2 diabetes status",
+      "diabetesDescription": "Key diabetes course features and microvascular complications.",
+      "menopause": "Menopause status",
+      "menopauseDescription": "This section is shown only for female patients.",
+      "labs": "Laboratory indicators",
+      "labsDescription": "Optional indicators can be left empty if unavailable.",
+      "functional": "Functional tests and fall risk",
+      "functionalDescription": "Record falls and available functional test results.",
+      "densitometry": "Densitometry",
+      "densitometryDescription": "T-score is an optional comparison indicator."
+    },
+    "fields": {
+      "patientId": "Anonymized patient ID",
+      "sex": "Sex",
+      "age": "Age",
+      "height": "Height, cm",
+      "weight": "Weight, kg",
+      "bmi": "BMI, kg/m²",
+      "diabetesDuration": "Type 2 diabetes duration",
+      "hba1c": "HbA1c, %",
+      "polyneuropathy": "Diabetic polyneuropathy",
+      "retinopathy": "Diabetic retinopathy",
+      "nephropathy": "Diabetic nephropathy",
+      "menopauseStatus": "Menopause status",
+      "menopauseOnsetAge": "Menopause onset age",
+      "postmenopauseDuration": "Postmenopause duration, years",
+      "vitaminD": "Vitamin D 25(OH)D, ng/ml",
+      "pth": "Parathyroid hormone, pg/ml",
+      "alkalinePhosphatase": "Alkaline phosphatase, U/L",
+      "totalCalcium": "Total calcium, mmol/L",
+      "egfr": "eGFR CKD-EPI, ml/min/1.73 m²",
+      "falls": "Falls in the last 12 months",
+      "tug": "TUG test, seconds",
+      "handGrip": "Hand grip dynamometry, dominant hand, kg",
+      "tScore": "Sonost 3000 / densitometry T-score"
+    },
+    "hints": {
+      "patientId": "For example, an internal study code or registry ID without personal data.",
+      "age": "Expected model range: 40–70 years.",
+      "bmi": "Read-only field, updates when height or weight changes.",
+      "duration": "Read-only field, calculated as current age minus menopause onset age.",
+      "optionalLabs": "Missing optional data does not block risk calculation.",
+      "tScore": "Used for comparison and clinical interpretation, not required for submission."
+    },
+    "warnings": {
+      "ageRange": "Age is outside the expected 40–70 range. Calculation is allowed but requires cautious interpretation.",
+      "highFallRisk": "TUG ≥20 seconds: visual marker of high fall risk."
+    },
+    "tooltips": {
+      "tug": "≥20 seconds indicates high fall risk."
+    },
+    "actions": {
+      "calculate": "Calculate risk",
+      "calculating": "Calculating..."
+    },
+    "draft": {
+      "restored": "Draft restored",
+      "saved": "Draft saved"
+    },
+    "options": {
+      "diabetesDuration": {
+        "lt_5": "<5 years",
+        "between_5_10": "5–10 years",
+        "gt_10": ">10 years"
+      },
+      "menopauseStatus": {
+        "premenopause": "Premenopause",
+        "perimenopause": "Perimenopause",
+        "postmenopause": "Postmenopause"
+      }
+    },
+    "riskCategories": {
+      "low": "Low risk",
+      "borderline": "Borderline risk",
+      "high": "High risk"
+    },
+    "thresholds": {
+      "low": "<0.20",
+      "borderline": "0.20–0.60",
+      "high": ">0.60"
+    },
+    "result": {
+      "title": "Prediction result",
+      "description": "Fast interpretation for the physician.",
+      "emptyDescription": "Fill in the form and run calculation.",
+      "emptyTitle": "Result will appear here",
+      "emptyText": "After form submission, the panel will show probability, risk category, top 3 SHAP factors, and recommendation.",
+      "loading": "The model is calculating risk",
+      "probability": "Probability of reduced BMD",
+      "exactProbability": "Exact value: {{value}}",
+      "trafficLight": "Risk traffic light",
+      "recommendation": "Recommendation",
+      "outdated": "Form data changed after calculation. Recalculate risk to refresh the result."
+    },
+    "shap": {
+      "title": "Top 3 SHAP factors",
+      "value": "Value",
+      "impact": "Impact",
+      "mockNotice": "Factors are shown in mock/development mode and require clinical model validation.",
+      "directions": {
+        "increases_risk": "Increases risk",
+        "decreases_risk": "Decreases risk"
+      }
+    },
+    "model": {
+      "statusTitle": "Model status",
+      "version": "Model version",
+      "type": "Model type",
+      "createdAt": "Calculated at"
+    },
+    "validation": {
+      "integer": "Enter an integer",
+      "ageMax": "Age must be from 1 to 120 years",
+      "height": "Height must be from 140 to 220 cm",
+      "weight": "Weight must be from 40 to 200 kg",
+      "hba1c": "HbA1c must be from 4.0 to 15.0%",
+      "nonNegative": "Enter a non-negative value",
+      "menopauseOnset": "Menopause onset age must be from 30 to 70 years",
+      "menopauseAfterAge": "Menopause onset age cannot be greater than current age"
+    }
+  },
   "errors": {
+    "patient_external_id_already_exists": "A patient with this anonymized ID already exists.",
+    "patient_unique_constraint_violation": "A patient with this identifier or medical record number already exists.",
+    "patient_not_found": "Patient not found.",
+    "screening_not_found": "Screening not found.",
+    "prediction_not_found": "Prediction not found.",
     "pdf_generation_failed": "PDF could not be generated. Please try again later.",
     "request_failed": "Request failed.",
     "network_failed": "Cannot connect to the server."

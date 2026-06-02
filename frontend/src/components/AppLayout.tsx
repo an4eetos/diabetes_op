@@ -48,7 +48,7 @@ export default function AppLayout() {
           <nav className="flex items-center gap-2">
             <NavLink to="/" className={navLinkClass}>
               <Activity size={17} aria-hidden />
-              {t("nav.dashboard")}
+              {t("nav.osteorisk")}
             </NavLink>
             <NavLink to="/patients" className={navLinkClass}>
               <UsersRound size={17} aria-hidden />

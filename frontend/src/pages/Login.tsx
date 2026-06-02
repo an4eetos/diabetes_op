@@ -41,25 +41,7 @@ export default function Login() {
       await login(values.email, values.password);
       navigate("/");
     } catch (err) {
-      const code = err instanceof Error ? err.message : "";
-      if (code === "network_failed") {
-        setError(t("errors.network_failed"));
-        return;
-      }
-      if (code.startsWith("request_failed:")) {
-        const status = code.split(":")[1];
-        setError(`${t("errors.request_failed")} (HTTP ${status})`);
-        return;
-      }
-      if (code === "request_failed") {
-        setError(t("errors.request_failed"));
-        return;
-      }
-      if (code === "Invalid email or password") {
-        setError(t("auth.loginFailed"));
-        return;
-      }
-      setError(code || t("auth.loginFailed"));
+      setError(err instanceof Error ? err.message : t("auth.loginFailed"));
     }
   }
 

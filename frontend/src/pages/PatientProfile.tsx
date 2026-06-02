@@ -38,10 +38,13 @@ export default function PatientProfile() {
       middle_name: "",
       date_of_birth: "",
       sex: "female",
+      menopause_status: "unknown",
       phone: "",
       notes: ""
     }
   });
+  const selectedSex = form.watch("sex");
+  const selectedMenopauseStatus = form.watch("menopause_status");
   const updateMutation = useMutation({
     mutationFn: (values: PatientFormData) => updatePatient(patientId!, values),
     onSuccess: async () => {
@@ -56,17 +59,31 @@ export default function PatientProfile() {
     if (!patient) {
       return;
     }
+    const patientSex = patient.sex ?? "female";
+    const legacyMenopauseStatus =
+      patient.menopause_status === "yes" || patient.menopause_status === "no" || patient.menopause_status === "unknown"
+        ? patient.menopause_status
+        : "unknown";
     form.reset({
       medical_record_number: patient.medical_record_number ?? "",
-      first_name: patient.first_name,
-      last_name: patient.last_name,
+      first_name: patient.first_name ?? "",
+      last_name: patient.last_name ?? "",
       middle_name: patient.middle_name ?? "",
       date_of_birth: patient.date_of_birth ?? "",
-      sex: patient.sex,
+      sex: patientSex,
+      menopause_status: patientSex === "female" ? legacyMenopauseStatus : null,
       phone: patient.phone ?? "",
       notes: patient.notes ?? ""
     });
   }, [form, patientQuery.data]);
+
+  useEffect(() => {
+    if (selectedSex !== "female") {
+      form.setValue("menopause_status", null);
+    } else if (!selectedMenopauseStatus) {
+      form.setValue("menopause_status", "unknown");
+    }
+  }, [form, selectedMenopauseStatus, selectedSex]);
 
   if (patientQuery.isLoading) {
     return <p className="text-sm text-slate-500">{t("common.loading")}</p>;
@@ -78,16 +95,24 @@ export default function PatientProfile() {
 
   const patient = patientQuery.data;
   const screenings = screeningsQuery.data ?? [];
+  const patientTitle = `${patient.last_name ?? ""} ${patient.first_name ?? ""}`.trim() || (patient.patient_external_id ?? patient.id);
+  const menopauseLabel = patient.menopause_status
+    ? t(`menopauseStatus.${patient.menopause_status}`, {
+        defaultValue: t(`osteorisk.options.menopauseStatus.${patient.menopause_status}`, {
+          defaultValue: patient.menopause_status
+        })
+      })
+    : t("common.notProvided");
 
   return (
     <div className="space-y-6">
       <PageHeader
-        title={`${patient.last_name} ${patient.first_name}`}
-        subtitle={patient.medical_record_number ?? t("patients.noMrn")}
+        title={patientTitle}
+        subtitle={patient.medical_record_number ?? patient.patient_external_id ?? t("patients.noMrn")}
         actions={
-          <Link className="primary-button" to={`/patients/${patient.id}/screenings/new`}>
+          <Link className="primary-button" to="/">
             <ClipboardPlus size={17} aria-hidden />
-            {t("patients.newScreening")}
+            {t("nav.osteorisk")}
           </Link>
         }
       />
@@ -113,6 +138,15 @@ export default function PatientProfile() {
                 <option value="other">{t("sex.other")}</option>
               </select>
             </Field>
+            {selectedSex === "female" && (
+              <Field label={t("fields.menopauseStatus")}>
+                <select className="form-input" {...form.register("menopause_status")}>
+                  <option value="unknown">{t("menopauseStatus.unknown")}</option>
+                  <option value="yes">{t("menopauseStatus.yes")}</option>
+                  <option value="no">{t("menopauseStatus.no")}</option>
+                </select>
+              </Field>
+            )}
             <Field label={t("fields.lastName")} required error={form.formState.errors.last_name?.message}>
               <input className="form-input" {...form.register("last_name")} />
             </Field>
@@ -149,8 +183,16 @@ export default function PatientProfile() {
           <dl className="grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
             <div>
               <dt className="font-medium text-slate-500">{t("fields.sex")}</dt>
-              <dd className="mt-1 font-semibold text-slate-900">{t(`sex.${patient.sex}`)}</dd>
+              <dd className="mt-1 font-semibold text-slate-900">
+                {patient.sex ? t(`sex.${patient.sex}`) : t("common.notProvided")}
+              </dd>
             </div>
+            {patient.sex === "female" && (
+              <div>
+                <dt className="font-medium text-slate-500">{t("fields.menopauseStatus")}</dt>
+                <dd className="mt-1 font-semibold text-slate-900">{menopauseLabel}</dd>
+              </div>
+            )}
             <div>
               <dt className="font-medium text-slate-500">{t("fields.dateOfBirth")}</dt>
               <dd className="mt-1 font-semibold text-slate-900">{patient.date_of_birth ?? t("common.notProvided")}</dd>

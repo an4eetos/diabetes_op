@@ -11,6 +11,7 @@ export const createScreeningSchema = (t: TFunction) =>
   z.object({
     age: z.coerce.number().int().min(18, t("validation.age")).max(120, t("validation.age")),
     sex: z.enum(["female", "male", "other"]),
+    menopause_status: z.enum(["yes", "no", "unknown"]).nullable().optional(),
     diabetes_duration_years: z.coerce
       .number()
       .min(0, t("validation.duration"))

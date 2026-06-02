@@ -40,7 +40,7 @@ def create_patient(
         patient = PatientService(db).create(payload, created_by_id=current_user.id)
     except IntegrityError as exc:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Medical record number already exists") from exc
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="patient_unique_constraint_violation") from exc
 
     AuditService(db).log(
         actor_user_id=current_user.id,
@@ -60,7 +60,7 @@ def get_patient(
 ) -> Patient:
     patient = PatientRepository(db).get(patient_id)
     if not patient:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="patient_not_found")
     return patient
 
 
@@ -75,9 +75,9 @@ def update_patient(
         patient, changed_fields = PatientService(db).update(patient_id, payload)
     except IntegrityError as exc:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Medical record number already exists") from exc
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="patient_unique_constraint_violation") from exc
     if not patient:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="patient_not_found")
 
     AuditService(db).log(
         actor_user_id=current_user.id,
@@ -95,8 +95,14 @@ def list_patient_screenings(
     patient_id: uuid.UUID,
     db: Session = Depends(get_db),
     _: User = Depends(get_current_user),
-):
-    if not PatientRepository(db).get(patient_id):
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Patient not found")
-    return ScreeningRepository(db).list_for_patient(patient_id)
-
+) -> list[ScreeningRead]:
+    patient = PatientRepository(db).get(patient_id)
+    if not patient:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="patient_not_found")
+    screenings = ScreeningRepository(db).list_for_patient(patient_id)
+    return [
+        ScreeningRead.model_validate(screening, from_attributes=True).model_copy(
+            update={"patient_external_id": patient.patient_external_id}
+        )
+        for screening in screenings
+    ]

@@ -27,6 +27,7 @@ let patients: Patient[] = [
     middle_name: null,
     date_of_birth: "1962-04-14",
     sex: "female",
+    menopause_status: "yes",
     phone: "+7 700 000 00 00",
     notes: null,
     created_at: now(),
@@ -113,6 +114,7 @@ export const mockApi = {
     return patient;
   },
   async createPatient(payload: Partial<PatientFormData>) {
+    const sex = payload.sex ?? "female";
     const patient: Patient = {
       id: id(),
       medical_record_number: payload.medical_record_number ?? null,
@@ -120,7 +122,8 @@ export const mockApi = {
       last_name: payload.last_name ?? "",
       middle_name: payload.middle_name ?? null,
       date_of_birth: payload.date_of_birth ?? null,
-      sex: payload.sex ?? "female",
+      sex,
+      menopause_status: sex === "female" ? (payload.menopause_status ?? "unknown") : null,
       phone: payload.phone ?? null,
       notes: payload.notes ?? null,
       created_at: now(),
@@ -131,7 +134,11 @@ export const mockApi = {
   },
   async updatePatient(patientId: string, payload: Partial<PatientFormData>) {
     const patient = await this.getPatient(patientId);
-    Object.assign(patient, payload, { updated_at: now() });
+    const nextSex = payload.sex ?? patient.sex;
+    Object.assign(patient, payload, {
+      menopause_status: nextSex === "female" ? (payload.menopause_status ?? patient.menopause_status ?? "unknown") : null,
+      updated_at: now()
+    });
     return patient;
   },
   async listPatientScreenings(patientId: string) {
@@ -152,6 +159,7 @@ export const mockApi = {
       performed_by_id: currentUser.id,
       age: payload.age,
       sex: payload.sex,
+      menopause_status: payload.sex === "female" ? (payload.menopause_status ?? "unknown") : null,
       diabetes_duration_years: payload.diabetes_duration_years,
       hba1c_percent: payload.hba1c_percent,
       previous_low_energy_fractures: payload.previous_low_energy_fractures_answer === "yes",

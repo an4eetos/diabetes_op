@@ -9,6 +9,7 @@ export const createPatientSchema = (t: TFunction) =>
     middle_name: z.string().max(120, t("validation.max")).optional().or(z.literal("")),
     date_of_birth: z.string().optional().or(z.literal("")),
     sex: z.enum(["female", "male", "other"]),
+    menopause_status: z.enum(["yes", "no", "unknown"]).nullable().optional(),
     phone: z.string().max(60, t("validation.max")).optional().or(z.literal("")),
     notes: z.string().max(2000, t("validation.max")).optional().or(z.literal(""))
   });

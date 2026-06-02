@@ -37,5 +37,3 @@ export function updateMyPreferences(preferredLanguage: SupportedLanguage): Promi
     body: JSON.stringify({ preferred_language: preferredLanguage })
   });
 }
-
-// 
